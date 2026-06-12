@@ -1,0 +1,85 @@
+@page
+@model IndexModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Welcome to Lumina Chat";
+}
+
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="welcome-stitch-body">
+    <div class="welcome-noise" aria-hidden="true"></div>
+
+    <main class="welcome-stitch-main" aria-label="Welcome to Lumina Chat">
+        <section class="welcome-identity">
+            <div class="welcome-logo" aria-hidden="true">
+                <span class="material-symbols-outlined">hub</span>
+            </div>
+            <h1>Lumina Chat</h1>
+            <p>A secure, distraction-free messaging platform hosted on your local network.</p>
+        </section>
+
+        <section class="welcome-glass-card">
+            <form class="welcome-stitch-form" method="post">
+                @Html.AntiForgeryToken()
+                @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+                {
+                    <p class="welcome-error" role="alert">@Model.ErrorMessage</p>
+                }
+                <div class="field-group">
+                    <label for="display-name">DISPLAY NAME</label>
+                    <div class="input-wrap">
+                        <input id="display-name" asp-for="DisplayName" type="text" maxlength="50" placeholder="How should others see you?" autocomplete="name" />
+                        <span class="material-symbols-outlined input-icon" aria-hidden="true">person</span>
+                    </div>
+                </div>
+
+                <div class="join-group">
+                    <button class="welcome-enter-button" type="submit">
+                        <span>Enter Chat</span>
+                        <span class="material-symbols-outlined arrow-icon" aria-hidden="true">arrow_forward</span>
+                    </button>
+                    <div class="lan-status">
+                        <span class="material-symbols-outlined" aria-hidden="true">lan</span>
+                        <span>Connected to Local Network</span>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <footer class="welcome-footer">
+            <a href="#">HELP</a>
+            <a href="#">ABOUT</a>
+            <a href="#">PRIVACY</a>
+        </footer>
+    </main>
+
+    <div class="welcome-bg-light welcome-bg-light-top" aria-hidden="true"></div>
+    <div class="welcome-bg-light welcome-bg-light-bottom" aria-hidden="true"></div>
+    <script>
+        document.querySelector('.welcome-stitch-form').addEventListener('submit', (event) => {
+            const input = document.getElementById('display-name');
+            const button = document.querySelector('.welcome-enter-button');
+
+            if (!input.value.trim()) {
+                event.preventDefault();
+                input.classList.add('input-error');
+                input.placeholder = 'Please enter a name first';
+                setTimeout(() => input.classList.remove('input-error'), 2000);
+                return;
+            }
+
+            button.innerHTML = '<span class="material-symbols-outlined loading-icon">progress_activity</span><span>Connecting...</span>';
+            button.disabled = true;
+        });
+    </script>
+</body>
+</html>

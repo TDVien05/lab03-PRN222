@@ -1,0 +1,211 @@
+@page
+@attribute [Microsoft.AspNetCore.Authorization.Authorize]
+@model CreateGroupModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Lumina Chat - Create Group";
+}
+
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="create-group-body">
+    <header class="create-topbar">
+        <h1>EtherChat</h1>
+        <div class="create-top-actions">
+            <button type="button" aria-label="Notifications">
+                <span class="material-symbols-outlined">notifications</span>
+            </button>
+            <button type="button" aria-label="More options">
+                <span class="material-symbols-outlined">more_vert</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="create-shell">
+        <aside class="create-sidebar">
+            <div class="create-user">
+                <div class="create-user-photo">
+                    <img alt="User profile photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAbPMo53bD9lMpJLMLQ6oM9cac92IC2RhBtsei8xTIE-a6t4lMnM3kLILR9tOaFmTpkjMweoXakmnSNZyDxc5iQ23MNU5_HbCBVH5WvUBu5qQkfP4HDTTsMt_7NLJ7ax1lq6Gi6Xmtxqw_XiuXuZtbjm-rMgJbSHRvozzSKkejT2xFB5XB9Idr2DSXIaizjm0Fr1LNVWLTrRh2z1WqYkvbHtUHJ_c2hjn9ESG65SANPFD7zKaY9oGnZE9JgN0UC2nf-F1nwaHRscZ2" />
+                </div>
+                <div>
+                    <p>Connected</p>
+                    <span>Local Network</span>
+                </div>
+            </div>
+
+            <nav class="create-nav" aria-label="Admin navigation">
+                <a asp-page="/ChatRoom">
+                    <span class="material-symbols-outlined">chat_bubble</span>
+                    <span>Messages</span>
+                </a>
+                <a class="active" asp-page="/DiscoverGroups">
+                    <span class="material-symbols-outlined filled">explore</span>
+                    <span>Discover</span>
+                </a>
+                <a>
+                    <span class="material-symbols-outlined">inventory_2</span>
+                    <span>Archive</span>
+                </a>
+            </nav>
+
+            <div class="create-sidebar-button">
+                <a asp-page="/CreateGroup">Create Group</a>
+            </div>
+
+            <div class="create-sidebar-footer">
+                <a>
+                    <span class="material-symbols-outlined">help_outline</span>
+                    <span>Help</span>
+                </a>
+                <a>
+                    <span class="material-symbols-outlined">lock</span>
+                    <span>Privacy</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="create-main">
+            <div class="create-content">
+                <section class="create-heading">
+                    <h2>Create New Group</h2>
+                    <p>Establish a dedicated space for your team, project, or interest. Groups on EtherChat are optimized for low-latency LAN performance.</p>
+                </section>
+
+                @if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+                {
+                    <div class="create-flow-message success" role="status">
+                        <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
+                        <span>@Model.StatusMessage</span>
+                    </div>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+                {
+                    <div class="create-flow-message error" role="alert">
+                        <span class="material-symbols-outlined" aria-hidden="true">error</span>
+                        <span>@Model.ErrorMessage</span>
+                    </div>
+                }
+
+                <form class="create-form" method="post">
+                    @Html.AntiForgeryToken()
+                    <section class="avatar-upload-card">
+                        <button type="button" class="avatar-upload" aria-label="Upload group avatar">
+                            <span class="material-symbols-outlined">add_a_photo</span>
+                        </button>
+                        <div>
+                            <h3>Group Avatar</h3>
+                            <p>Upload a clear square image. PNG or JPG, max 5MB.</p>
+                            <button type="button" class="select-image-button">Select Image</button>
+                        </div>
+                    </section>
+
+                    <section class="create-fields">
+                        <div class="create-field">
+                            <label for="group-name">Group Name</label>
+                            <input id="group-name" asp-for="GroupName" type="text" placeholder="Enter a descriptive name" />
+                            <span class="field-validation" asp-validation-for="GroupName"></span>
+                        </div>
+                        <div class="create-field">
+                            <label for="group-desc">Description</label>
+                            <textarea id="group-desc" asp-for="Description" rows="4" placeholder="What is this group about?"></textarea>
+                        </div>
+                    </section>
+
+                    <section class="visibility-section">
+                        <p>Visibility Settings</p>
+                        <div class="visibility-grid">
+                            <label class="visibility-option">
+                                <input type="radio" asp-for="Visibility" value="@Model.PublicVisibilityValue" />
+                                <span class="radio-indicator"><i></i></span>
+                                <span class="visibility-content">
+                                    <span class="visibility-icon">
+                                        <span class="material-symbols-outlined">public</span>
+                                    </span>
+                                    <span>
+                                        <strong>@Model.PublicVisibilityLabel</strong>
+                                        <small>Anyone on the local network can find and join this group.</small>
+                                    </span>
+                                </span>
+                            </label>
+
+                            <label class="visibility-option">
+                                <input type="radio" asp-for="Visibility" value="@Model.PrivateVisibilityValue" />
+                                <span class="radio-indicator"><i></i></span>
+                                <span class="visibility-content">
+                                    <span class="visibility-icon secondary">
+                                        <span class="material-symbols-outlined">lock</span>
+                                    </span>
+                                    <span>
+                                        <strong>@Model.PrivateVisibilityLabel</strong>
+                                        <small>Hidden from discovery. Members must be invited to join.</small>
+                                    </span>
+                                </span>
+                            </label>
+                        </div>
+                    </section>
+
+                    <section class="create-final-actions">
+                        <p>You can change these settings later in group info.</p>
+                        <div>
+                            <a class="cancel-create" asp-page="/DiscoverGroups">Cancel</a>
+                            <button type="submit" class="submit-create">Create Group</button>
+                        </div>
+                    </section>
+                </form>
+            </div>
+        </main>
+
+        <aside class="create-preview-panel">
+            <section>
+                <p class="preview-label">PREVIEW</p>
+                <div class="preview-card">
+                    <div class="preview-header-row">
+                        <span class="preview-icon">
+                            <span class="material-symbols-outlined">groups</span>
+                        </span>
+                        <div>
+                            <h3 id="preview-name">@(string.IsNullOrWhiteSpace(Model.GroupName) ? "Untitled Group" : Model.GroupName)</h3>
+                            <p>0 members &bull; <span id="preview-visibility">@Model.VisibilityLabel</span></p>
+                        </div>
+                    </div>
+                    <span class="preview-line"></span>
+                    <span class="preview-line short"></span>
+                </div>
+            </section>
+
+            <section class="guidelines-card">
+                <div class="guidelines-image">
+                    <img alt="Minimal workspace" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVMHjHz_Tx0-Om25fIz8l4NbEllSFvm-K4Gxpk3n-vb2V5jcdjbY8efl8taCq-nTkLDsp-l8w65zoRdEezgzkfOkj302Zyz8cbXK8lvrUP39LurIfvhPWqKWsYoCYh6m0Ed3sVqMyGcVd5M6RlFsF2XpV7VIxGVevidThyhqapIL3X5JNl77OGmqQ-0pWpOPsIJv_kmttdpozAxdtORGejFRAYlyJZnzGFPU8BvyCbT1zjPYaV6BTtnzD8TllrGy7un1ihGJTfPSq7" />
+                </div>
+                <h3>Community Guidelines</h3>
+                <p>Ensure your group fosters a respectful and productive environment for all connected peers.</p>
+            </section>
+        </aside>
+    </div>
+
+    <script>
+        const groupNameInput = document.getElementById('group-name');
+        const previewName = document.getElementById('preview-name');
+
+        groupNameInput.addEventListener('input', (event) => {
+            previewName.textContent = event.target.value || 'Untitled Group';
+        });
+
+        document.querySelectorAll('input[name="Visibility"]').forEach((radio) => {
+            radio.addEventListener('change', (event) => {
+                document.getElementById('preview-visibility').textContent =
+                    event.target.value === '@Model.PrivateVisibilityValue' ? '@Model.PrivateVisibilityLabel' : '@Model.PublicVisibilityLabel';
+            });
+        });
+    </script>
+</body>
+</html>

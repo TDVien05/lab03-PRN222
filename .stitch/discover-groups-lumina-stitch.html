@@ -1,0 +1,348 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed": "#360f00",
+                    "surface-tint": "#0053db",
+                    "on-primary-container": "#eeefff",
+                    "surface-container-high": "#e2e7ff",
+                    "tertiary-container": "#bc4800",
+                    "secondary-container": "#e0e3e5",
+                    "surface-variant": "#dae2fd",
+                    "surface-dim": "#d2d9f4",
+                    "surface": "#faf8ff",
+                    "secondary-fixed-dim": "#c4c7c9",
+                    "on-surface": "#131b2e",
+                    "error": "#ba1a1a",
+                    "on-surface-variant": "#434655",
+                    "on-primary": "#ffffff",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "background": "#faf8ff",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#00174b",
+                    "on-error-container": "#93000a",
+                    "surface-container-highest": "#dae2fd",
+                    "outline-variant": "#c3c6d7",
+                    "surface-bright": "#faf8ff",
+                    "primary-container": "#2563eb",
+                    "on-tertiary-fixed-variant": "#7d2d00",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-container": "#ffede6",
+                    "on-secondary-fixed": "#191c1e",
+                    "on-secondary-container": "#626567",
+                    "outline": "#737686",
+                    "on-background": "#131b2e",
+                    "secondary-fixed": "#e0e3e5",
+                    "tertiary-fixed": "#ffdbcd",
+                    "on-secondary-fixed-variant": "#444749",
+                    "error-container": "#ffdad6",
+                    "inverse-primary": "#b4c5ff",
+                    "tertiary-fixed-dim": "#ffb596",
+                    "surface-container": "#eaedff",
+                    "primary-fixed": "#dbe1ff",
+                    "inverse-surface": "#283044",
+                    "surface-container-low": "#f2f3ff",
+                    "secondary": "#5c5f61",
+                    "on-error": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "tertiary": "#943700",
+                    "inverse-on-surface": "#eef0ff",
+                    "primary": "#004ac6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "sidebar_width": "280px",
+                    "xl": "32px",
+                    "xs": "4px",
+                    "gutter": "16px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "lg": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "title-sm": ["Inter"],
+                    "message-text": ["Inter"],
+                    "display-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "title-sm": ["18px", {"lineHeight": "24px", "fontWeight": "500"}],
+                    "message-text": ["15px", {"lineHeight": "22px", "fontWeight": "400"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-pill {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 20px;
+            background-color: #004ac6;
+            border-radius: 0 4px 4px 0;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid #E2E8F0;
+            transition: all 0.2s ease-in-out;
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: #004ac6;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<div class="flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<aside class="flex flex-col h-full w-[280px] border-r border-outline-variant dark:border-outline py-lg bg-surface-container-low dark:bg-surface-dim shrink-0">
+<div class="px-lg mb-xl">
+<div class="flex items-center gap-sm mb-xs">
+<img alt="Lumina Logo" class="w-8 h-8 rounded-lg" data-alt="A minimalist vector logo for a high-tech chat application named Lumina. The design features clean geometric shapes in a vibrant primary blue on a soft white background, reflecting a modern and calm aesthetic. The lighting is bright and even, reinforcing the quiet and professional atmosphere of the tool." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF5-0GCU_IduWRjfd-0ZhWzaLKdIlkU5zLz3EIioP8YZwmA-DOob81GDpOXLDtiO5AWmM-MDZqvO0Ey4NHrdn0gOK0Gr_rLA8lPOIiWBD4d1fEHIu5MiuLq-jJ8PSZjQw0l97YTbihTErezd_45AO-nfhnSlapRZEm-6S-ak242eV6vwR1zGj8m-cLBHNCbxR-pyNuGuG3GVvJLpGfk1LJtgmUtqzacZzEDDaysVLRfHxFubsKwaXtZ56BCdO3B4CW_2Z2m7ucimVu">
+<h1 class="font-title-sm text-title-sm font-semibold text-primary">Lumina Chat</h1>
+</div>
+<p class="font-body-md text-body-sm text-on-surface-variant">Local Network</p>
+</div>
+<div class="px-md mb-lg">
+
+</div>
+<nav class="flex-1 px-sm space-y-xs overflow-y-auto no-scrollbar">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-body-md text-body-md">Active Chats</span>
+</a>
+<div class="relative">
+<div class="active-pill"></div>
+<a class="flex items-center gap-md px-md py-sm bg-secondary-container text-on-secondary-container rounded-lg border-l-4 border-primary transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-body-md text-body-md font-bold">Discover Groups</span>
+</a>
+</div>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="settings_applications">settings_applications</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="px-sm mt-auto space-y-xs">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="support_agent">support_agent</span>
+<span class="font-body-md text-body-md">Support</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="archive">archive</span>
+<span class="font-body-md text-body-md">Archive</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col overflow-hidden bg-background">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center px-lg py-md w-full sticky top-0 z-50 bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-md">
+<h2 class="font-headline-md text-headline-md font-bold text-primary">Discover Groups</h2>
+</div>
+<div class="flex items-center gap-lg">
+<div class="flex items-center gap-md">
+<button class="p-xs rounded-full hover:bg-surface-container-low transition-colors duration-200">
+<span class="material-symbols-outlined text-on-surface-variant">help</span>
+</button>
+<button class="p-xs rounded-full hover:bg-surface-container-low transition-colors duration-200">
+<span class="material-symbols-outlined text-on-surface-variant">settings</span>
+</button>
+</div>
+<img alt="User profile" class="w-8 h-8 rounded-full border border-outline-variant" data-alt="A close-up professional profile avatar of a friendly-looking user with a clean, minimalist illustration style. The character features modern clothing and a serene expression, set against a soft, solid-colored background that matches the tranquil and professional Lumina design language." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMp5gHEmlnvkwguTvRUceuIzcDquosssbVqCXW3d4Qge_7OknopPVdpY-oKQWlPsBIfMJCNI9X1ZaorzEUd_W_vuSb0e5XmqbQaGYBAC-wYvx6S8qfSOIAFJJPmnCgVfm4tkdNR2MHdI5Dh9ppG3rNphim66WvVgeZXaZ83MTJSI07H37GUjoIlfHfCrymaSNc0Jutnou_FnNSEqhE-O7pZdmw1R3JBc-Zi3lU4AuT-xSplyO_2sjAQwyKvdxqFWMJ_KiwSXqqwaZ-">
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-lg">
+<div class="max-w-[1200px] mx-auto">
+<!-- Welcome / Action Row -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md mb-xl">
+<div>
+<p class="font-label-caps text-label-caps text-primary mb-xs">LOCAL NETWORK EXPLORER</p>
+<h3 class="font-display-lg text-display-lg text-on-surface">Find your community</h3>
+</div>
+<button class="flex items-center gap-sm px-lg py-md bg-primary text-on-primary rounded-xl font-title-sm hover:shadow-lg transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined">group_add</span>
+                            Create Group
+                        </button>
+</div>
+<!-- My Local Rooms -->
+<section class="mb-xl">
+<div class="flex items-center gap-sm mb-lg">
+<span class="material-symbols-outlined text-primary">bookmark</span>
+<h4 class="font-headline-md text-headline-md">My Local Rooms</h4>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
+<!-- Card 1 -->
+<div class="glass-card p-lg rounded-xl flex flex-col group cursor-pointer">
+<div class="flex justify-between items-start mb-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">terminal</span>
+</div>
+<span class="flex items-center gap-xs px-sm py-xs bg-emerald-100 text-emerald-700 rounded-full font-label-caps text-[10px]">
+<span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                                        12 ACTIVE
+                                    </span>
+</div>
+<h5 class="font-title-sm text-title-sm mb-xs group-hover:text-primary transition-colors">Dev Ops &amp; SRE</h5>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex-1 mb-md">Architecture discussions, deployment pipelines, and shared learning for internal clusters.</p>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex -space-x-2">
+<img alt="Member" class="w-6 h-6 rounded-full border-2 border-white" data-alt="Small circular avatar of a software developer with glasses, in a clean minimalist vector style, used as a UI element for a member list." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAznhDXwVwI_wG-wU9C1VpK7CFxTwVEcM5pbi4AixbcxvI_Rk22Ktsp1Is0xqCnXCQn7wjsGa4bCmuUFFzWADvQKAQKniI2_NUrWUf7JQ2cMQhrm7AbprvA0w4_cIQ4nJfJ9L2ftB8CeDtxX4VF2zlNYBCVKQAb64B2_s-9TfzW4jZ48pmcHv2sgLrtrDgxpvxH3NqU_By7-fjViiAW6hpds-JC7HtgV6i2TIKExps7Kx-zOTBZBT-E0nPNAuCoEXtNHQXUevDXnlxe">
+<img alt="Member" class="w-6 h-6 rounded-full border-2 border-white" data-alt="Small circular avatar of a creative professional with bright accessories, in a clean minimalist vector style, used as a UI element for a member list." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiQQk4zBJX7ESVGe81f36KsKXQmag0YBS-uKiX9bD1DrxFCBBU851y-NwPh8Ryv_2f62frecGm-7D37kKYauipzml03gOw9lwSTtaU16QcGlCG7ReHSZRAm10j-QO8ek4c8wPez6hzkdnXg5ddJ3sBwlAN4RqbAx3C5Um88ql-mK7I_hRwgKe8BRKyHjaq-aTZG_ZdmxdwldByhQinazs8RfB4fFbC9PNl_Qv-PkPo-TmZWzgdPnJH_n8Bme-Jz9S_HRkfnz0G5q-F">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest border-2 border-white flex items-center justify-center text-[10px] font-bold">+8</div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">arrow_forward</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="glass-card p-lg rounded-xl flex flex-col group cursor-pointer">
+<div class="flex justify-between items-start mb-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">palette</span>
+</div>
+<span class="flex items-center gap-xs px-sm py-xs bg-emerald-100 text-emerald-700 rounded-full font-label-caps text-[10px]">
+<span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                                        4 ACTIVE
+                                    </span>
+</div>
+<h5 class="font-title-sm text-title-sm mb-xs group-hover:text-primary transition-colors">Design Systems</h5>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex-1 mb-md">Maintaining Lumina's visual integrity. Tokens, components, and accessibility reviews.</p>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex -space-x-2">
+<img alt="Member" class="w-6 h-6 rounded-full border-2 border-white" data-alt="Small circular avatar of a UI designer, in a clean minimalist vector style, used as a UI element for a member list." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCX9vrPkiMGimkihrl_9_q5dv_LdO70CWPxTa432cHSglASU9xR1y8DO50LC-F1Hi9qCuetMPHO8Zwx6islzOQugE1-karOL3UvFk5AKGPTKVnZfhOTK9TiWBxBRshY4R5eem5X-3Fk-PTyA7E7_oU1K_gYvne87n-zleE8kqF0O5uoaFpRlwLzGH6mPxWECZaoynq23785xer4892VzGWUtppMXbNfCnSeCxX_5b89mkaV1r2Qqg2cKREFpMoUJE3JvLAMYmm58WBN">
+<img alt="Member" class="w-6 h-6 rounded-full border-2 border-white" data-alt="Small circular avatar of a product manager, in a clean minimalist vector style, used as a UI element for a member list." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCk0B8TrUgsT1whuJY48v8EmlcJx-nNZHrvZdx3pEqBXI8DxsgJGQepQJi_IUnj_D7tjN8P5ELa_aaXqOjlJ0O1y-4dgiDmXGyLj-foBQhc13u4HV6nmLfXE9N-mZ8ZoNWnA-gXpW7jHYfVVYw4iZf-HB0cXpeVApsykW2LZ3ZfLfF6MicIyNJRC4aNk0EbvjmdX57t-qK8jWQKlanSPPVIMRp0CoLwz6uda1cl6kwXaFqcH1CfWdWNySD2BZ7EM3SltEdLBTInbMXD">
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">arrow_forward</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Available Local Rooms -->
+<section>
+<div class="flex items-center gap-sm mb-lg">
+<span class="material-symbols-outlined text-primary">public</span>
+<h4 class="font-headline-md text-headline-md">Available Local Rooms</h4>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
+<!-- Available Card 1 -->
+<div class="border border-outline-variant p-lg rounded-xl flex flex-col hover:bg-surface-container-low transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">coffee</span>
+</div>
+<span class="px-sm py-xs bg-surface-container-high text-on-surface-variant rounded-full font-label-caps text-[10px]">
+                                        32 MEMBERS
+                                    </span>
+</div>
+<h5 class="font-title-sm text-title-sm mb-xs">Social Lounge</h5>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex-1 mb-md">The digital watercooler. Off-topic chat, pets, food, and music recommendations.</p>
+<button class="w-full py-sm border border-primary text-primary rounded-lg font-label-caps hover:bg-primary hover:text-on-primary transition-all">JOIN ROOM</button>
+</div>
+<!-- Available Card 2 -->
+<div class="border border-outline-variant p-lg rounded-xl flex flex-col hover:bg-surface-container-low transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">lightbulb</span>
+</div>
+<span class="px-sm py-xs bg-surface-container-high text-on-surface-variant rounded-full font-label-caps text-[10px]">
+                                        15 MEMBERS
+                                    </span>
+</div>
+<h5 class="font-title-sm text-title-sm mb-xs">Innovation Hub</h5>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex-1 mb-md">Pitching new ideas and experimental projects. High noise, high reward.</p>
+<button class="w-full py-sm border border-primary text-primary rounded-lg font-label-caps hover:bg-primary hover:text-on-primary transition-all">JOIN ROOM</button>
+</div>
+<!-- Available Card 3 -->
+<div class="border border-outline-variant p-lg rounded-xl flex flex-col hover:bg-surface-container-low transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">security</span>
+</div>
+<span class="flex items-center gap-xs px-sm py-xs bg-emerald-100 text-emerald-700 rounded-full font-label-caps text-[10px]">
+<span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                                        2 ACTIVE
+                                    </span>
+</div>
+<h5 class="font-title-sm text-title-sm mb-xs">Security Ops</h5>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex-1 mb-md">Monitor network security and handle incident responses across the LAN.</p>
+<button class="w-full py-sm border border-primary text-primary rounded-lg font-label-caps hover:bg-primary hover:text-on-primary transition-all">JOIN ROOM</button>
+</div>
+<!-- Available Card 4 (Bento-ish stretch) -->
+<div class="md:col-span-2 glass-card p-lg rounded-xl flex flex-row items-center gap-lg group cursor-pointer">
+<div class="w-20 h-20 rounded-2xl bg-primary-container/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: &quot;opsz&quot; 48;">rocket_launch</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-md mb-xs">
+<h5 class="font-title-sm text-title-sm group-hover:text-primary transition-colors">Quarterly Launch Prep</h5>
+<span class="px-sm py-xs bg-primary-container text-on-primary-container rounded-full font-label-caps text-[10px]">FEATURED</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">The final stretch before the v2.0 release. All hands on deck for QA and documentation syncing across all local squads.</p>
+</div>
+<div class="hidden md:flex flex-col items-end gap-sm">
+<span class="font-label-caps text-on-surface-variant">45 MEMBERS</span>
+<button class="px-lg py-sm bg-primary text-on-primary rounded-lg font-label-caps hover:opacity-90 transition-all">JOIN</button>
+</div>
+</div>
+<!-- Empty Slot / Suggestion -->
+<div class="border-2 border-dashed border-outline-variant p-lg rounded-xl flex flex-col items-center justify-center text-center group hover:border-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-outline-variant mb-md group-hover:text-primary transition-colors">help</span>
+<h5 class="font-title-sm text-on-surface-variant mb-xs">Missing something?</h5>
+<p class="font-body-sm text-on-surface-variant mb-md">Start a new space for your local team.</p>
+<span class="text-primary font-bold font-body-sm">Propose a Room</span>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+<!-- Micro-interaction script -->
+<script>
+        document.querySelectorAll('.glass-card, .border-outline-variant').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                // Subtle hover logic if needed beyond CSS
+            });
+        });
+    </script>
+
+
+</body></html>

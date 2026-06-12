@@ -1,0 +1,89 @@
+@page
+@model GroupDetailsModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Group Details (LAN)";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="lumina-body">
+    <main class="app-shell">
+        <header class="topbar">
+            <a class="brand" asp-page="/Index"><span class="brand-mark">L</span><span>Lumina Chat</span></a>
+            <nav class="screen-nav" aria-label="Screens">
+                <a asp-page="/Index">Welcome</a>
+                <a asp-page="/DiscoverGroups">Discover</a>
+                <a asp-page="/ChatRoom">Room</a>
+                <a class="active" asp-page="/GroupDetails">Details</a>
+            </nav>
+            <a class="button secondary" asp-page="/ChatRoom" asp-route-groupId="@Model.Group?.Id">Back to room</a>
+        </header>
+
+        @if (Model.Group is null)
+        {
+            <section class="proposal-card">
+                <span class="material-symbols-outlined">info</span>
+                <h5>No group selected</h5>
+                <p>Select a group from Discover Groups or create a new one.</p>
+                <a asp-page="/DiscoverGroups">Find groups</a>
+            </section>
+        }
+        else
+        {
+            <section class="details-layout">
+                <aside class="details-summary">
+                    <span class="group-icon large">@Model.Group.Initials</span>
+                    <p class="eyebrow">LAN room</p>
+                    <h1>@Model.Group.Name</h1>
+                    <p>@Model.Group.Description</p>
+                    <div class="summary-actions">
+                        <a class="button primary" asp-page="/ChatRoom" asp-route-groupId="@Model.Group.Id">Open chat</a>
+                        <a class="button secondary" asp-page="/DiscoverGroups">Find groups</a>
+                    </div>
+                </aside>
+
+                <section class="details-content">
+                    <article class="info-card wide">
+                        <div class="section-title">
+                            <p class="eyebrow">Overview</p>
+                            <h2>Room settings</h2>
+                        </div>
+                        <dl class="settings-list">
+                            <div><dt>Created</dt><dd>@Model.Group.CreatedAt.ToLocalTime().ToString("g")</dd></div>
+                            <div><dt>Members</dt><dd>@Model.Members.Count</dd></div>
+                            <div><dt>Messages</dt><dd>@Model.MessageCount</dd></div>
+                        </dl>
+                    </article>
+
+                    <article class="info-card wide">
+                        <div class="section-title">
+                            <p class="eyebrow">Participants</p>
+                            <h2>Members</h2>
+                        </div>
+                        @if (Model.Members.Count == 0)
+                        {
+                            <p class="chat-empty-copy">No members have joined this group.</p>
+                        }
+                        else
+                        {
+                            <div class="member-table">
+                                @foreach (var member in Model.Members)
+                                {
+                                    <div><strong>@member.DisplayName</strong><span>Member</span><small>Joined @member.JoinedAt.ToLocalTime().ToString("g")</small></div>
+                                }
+                            </div>
+                        }
+                    </article>
+                </section>
+            </section>
+        }
+    </main>
+</body>
+</html>

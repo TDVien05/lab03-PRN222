@@ -1,0 +1,331 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Lumina Chat - Create Group</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#ffdbcd",
+                    "tertiary": "#943700",
+                    "on-surface": "#131b2e",
+                    "surface-container-low": "#f2f3ff",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed-dim": "#c4c7c9",
+                    "inverse-primary": "#b4c5ff",
+                    "surface-container-high": "#e2e7ff",
+                    "secondary": "#5c5f61",
+                    "surface-container-highest": "#dae2fd",
+                    "on-secondary": "#ffffff",
+                    "surface-variant": "#dae2fd",
+                    "surface-tint": "#0053db",
+                    "on-tertiary-container": "#ffede6",
+                    "on-background": "#131b2e",
+                    "outline": "#737686",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "on-surface-variant": "#434655",
+                    "on-primary-fixed": "#00174b",
+                    "outline-variant": "#c3c6d7",
+                    "secondary-container": "#e0e3e5",
+                    "on-secondary-fixed-variant": "#444749",
+                    "surface-bright": "#faf8ff",
+                    "primary-fixed": "#dbe1ff",
+                    "primary-container": "#2563eb",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed": "#191c1e",
+                    "primary": "#004ac6",
+                    "error-container": "#ffdad6",
+                    "background": "#faf8ff",
+                    "on-tertiary-fixed": "#360f00",
+                    "on-primary-container": "#eeefff",
+                    "secondary-fixed": "#e0e3e5",
+                    "on-secondary-container": "#626567",
+                    "surface-container": "#eaedff",
+                    "on-error-container": "#93000a",
+                    "tertiary-container": "#bc4800",
+                    "tertiary-fixed-dim": "#ffb596",
+                    "error": "#ba1a1a",
+                    "inverse-surface": "#283044",
+                    "surface-container-lowest": "#ffffff",
+                    "on-error": "#ffffff",
+                    "surface": "#faf8ff",
+                    "inverse-on-surface": "#eef0ff",
+                    "surface-dim": "#d2d9f4",
+                    "on-tertiary-fixed-variant": "#7d2d00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "unit": "4px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "gutter": "16px",
+                    "sidebar_width": "280px",
+                    "xs": "4px",
+                    "lg": "24px"
+            },
+            "fontFamily": {
+                    "title-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "message-text": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "display-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "title-sm": ["18px", {"lineHeight": "24px", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "message-text": ["15px", {"lineHeight": "22px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #faf8ff;
+            color: #131b2e;
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for minimal look */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e2e8ff;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d1d9ff;
+        }
+        .form-focus-ring:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #dbe1ff;
+            border-color: #004ac6;
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen overflow-hidden">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-lg py-md z-50 bg-surface-container-lowest dark:bg-on-surface border-b border-outline-variant dark:border-on-surface-variant top-0 docked full-width">
+<div class="flex items-center gap-md">
+<h1 class="font-display-lg text-display-lg font-semibold text-primary dark:text-primary-fixed-dim">EtherChat</h1>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-sm rounded-full hover:bg-surface-container-low dark:hover:bg-on-surface-variant transition-colors duration-200 ease-in-out text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-sm rounded-full hover:bg-surface-container-low dark:hover:bg-on-surface-variant transition-colors duration-200 ease-in-out text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-full w-[280px] bg-surface-container-low dark:bg-surface-dim border-r border-outline-variant dark:border-on-surface-variant shrink-0">
+<div class="p-lg flex items-center gap-md">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container-highest">
+<img alt="User profile photo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAbPMo53bD9lMpJLMLQ6oM9cac92IC2RhBtsei8xTIE-a6t4lMnM3kLILR9tOaFmTpkjMweoXakmnSNZyDxc5iQ23MNU5_HbCBVH5WvUBu5qQkfP4HDTTsMt_7NLJ7ax1lq6Gi6Xmtxqw_XiuXuZtbjm-rMgJbSHRvozzSKkejT2xFB5XB9Idr2DSXIaizjm0Fr1LNVWLTrRh2z1WqYkvbHtUHJ_c2hjn9ESG65SANPFD7zKaY9oGnZE9JgN0UC2nf-F1nwaHRscZ2">
+</div>
+<div>
+<p class="font-headline-md text-body-md font-bold text-on-surface">Connected</p>
+<p class="text-on-surface-variant text-label-caps opacity-70">Local Network</p>
+</div>
+</div>
+<nav class="flex-1 px-md space-y-xs">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all duration-150 ease-linear" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-body-md text-body-md">Messages</span>
+</a>
+<!-- Discover Active State -->
+<a class="flex items-center gap-md px-md py-sm rounded-lg bg-surface-container-highest dark:bg-secondary-container text-primary font-semibold border-l-[3px] border-primary transition-all duration-150 ease-linear" href="#">
+<span class="material-symbols-outlined" data-icon="explore" style="font-variation-settings: &quot;FILL&quot; 1;">explore</span>
+<span class="font-body-md text-body-md">Discover</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all duration-150 ease-linear" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-body-md text-body-md">Archive</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all duration-150 ease-linear" href="#">
+
+
+</a>
+</nav>
+<div class="p-md">
+<button class="w-full py-md bg-primary text-on-primary font-semibold rounded-xl hover:shadow-lg transition-all active:scale-[0.98]">
+                    Create Group
+                </button>
+</div>
+<div class="px-md py-lg mt-auto border-t border-outline-variant/30">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all duration-150 ease-linear mb-xs" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span class="font-body-md text-body-md">Help</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all duration-150 ease-linear" href="#">
+<span class="material-symbols-outlined" data-icon="lock">lock</span>
+<span class="font-body-md text-body-md">Privacy</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 h-full overflow-y-auto bg-surface-container-lowest">
+<div class="max-w-[900px] mx-auto px-lg py-xl">
+<!-- Breadcrumbs / Header -->
+<div class="mb-xl">
+<h2 class="font-display-lg text-display-lg font-extrabold text-on-surface tracking-tight">Create New Group</h2>
+<p class="text-on-surface-variant font-body-md mt-sm max-w-xl">
+                        Establish a dedicated space for your team, project, or interest. Groups on EtherChat are optimized for low-latency LAN performance.
+                    </p>
+</div>
+<!-- Form Section -->
+<section class="space-y-xl">
+<!-- Group Avatar Upload -->
+<div class="flex items-center gap-xl p-lg bg-surface-container-low rounded-2xl border border-outline-variant/20">
+<div class="relative group">
+<div class="w-24 h-24 rounded-full bg-white flex items-center justify-center border-2 border-dashed border-outline-variant overflow-hidden group-hover:border-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary text-4xl" data-icon="add_a_photo">add_a_photo</span>
+</div>
+<div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 rounded-full transition-colors pointer-events-none"></div>
+</div>
+<div>
+<p class="font-title-sm text-title-sm text-on-surface">Group Avatar</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Upload a clear square image. PNG or JPG, max 5MB.</p>
+<button class="mt-md px-md py-sm border border-outline rounded-lg font-label-caps text-on-surface-variant hover:bg-white transition-colors">Select Image</button>
+</div>
+</div>
+<!-- Input Fields -->
+<div class="grid grid-cols-1 gap-lg">
+<div class="space-y-sm">
+<label class="font-label-caps text-on-surface-variant block ml-1" for="group-name">Group Name</label>
+<input class="w-full px-lg py-md bg-white border border-outline-variant rounded-xl font-body-md form-focus-ring transition-all" id="group-name" placeholder="Enter a descriptive name" type="text">
+</div>
+<div class="space-y-sm">
+<label class="font-label-caps text-on-surface-variant block ml-1" for="group-desc">Description</label>
+<textarea class="w-full px-lg py-md bg-white border border-outline-variant rounded-xl font-body-md form-focus-ring transition-all resize-none" id="group-desc" placeholder="What is this group about?" rows="4"></textarea>
+</div>
+</div>
+<!-- Visibility Settings -->
+<div class="space-y-md">
+<p class="font-label-caps text-on-surface-variant ml-1">Visibility Settings</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<!-- Public Option -->
+<label class="relative flex p-lg bg-white border border-outline-variant rounded-2xl cursor-pointer hover:border-primary/50 transition-all group">
+<input checked="" class="sr-only peer" name="visibility" type="radio" value="public">
+<div class="absolute top-md right-md w-6 h-6 rounded-full border-2 border-outline-variant peer-checked:border-primary peer-checked:bg-primary flex items-center justify-center transition-all">
+<div class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+</div>
+<div class="flex gap-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="public">public</span>
+</div>
+<div class="pr-md">
+<p class="font-title-sm text-title-sm text-on-surface">Public</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs leading-relaxed">Anyone on the local network can find and join this group.</p>
+</div>
+</div>
+<div class="absolute inset-0 ring-2 ring-primary ring-offset-2 rounded-2xl opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none"></div>
+</label>
+<!-- Private Option -->
+<label class="relative flex p-lg bg-white border border-outline-variant rounded-2xl cursor-pointer hover:border-primary/50 transition-all group">
+<input class="sr-only peer" name="visibility" type="radio" value="private">
+<div class="absolute top-md right-md w-6 h-6 rounded-full border-2 border-outline-variant peer-checked:border-primary peer-checked:bg-primary flex items-center justify-center transition-all">
+<div class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+</div>
+<div class="flex gap-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="lock">lock</span>
+</div>
+<div class="pr-md">
+<p class="font-title-sm text-title-sm text-on-surface">Private</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs leading-relaxed">Hidden from discovery. Members must be invited to join.</p>
+</div>
+</div>
+<div class="absolute inset-0 ring-2 ring-primary ring-offset-2 rounded-2xl opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none"></div>
+</label>
+</div>
+</div>
+<!-- Final Action -->
+<div class="pt-lg flex items-center justify-between border-t border-outline-variant/30">
+<div class="hidden sm:block">
+<p class="text-on-surface-variant font-body-sm italic">You can change these settings later in group info.</p>
+</div>
+<div class="flex gap-md w-full sm:w-auto">
+<button class="flex-1 sm:flex-none px-xl py-md font-semibold text-on-surface-variant hover:bg-surface-container-high rounded-xl transition-colors">Cancel</button>
+<button class="flex-1 sm:flex-none px-xl py-md bg-primary text-on-primary font-semibold rounded-xl hover:shadow-lg active:scale-95 transition-all">
+                                Create Group
+                            </button>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Contextual Info Panel (Aesthetic Filler) -->
+<aside class="hidden xl:flex flex-col w-[320px] bg-white border-l border-outline-variant/50 p-lg">
+<div class="mb-lg">
+<p class="font-label-caps text-on-surface-variant mb-md">PREVIEW</p>
+<div class="bg-surface-container-low rounded-2xl p-md border border-outline-variant/20">
+<div class="flex items-center gap-md mb-md">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+</div>
+<div>
+<p class="font-title-sm text-on-surface" id="preview-name">Untitled Group</p>
+<p class="text-xs text-on-surface-variant">0 members • Public</p>
+</div>
+</div>
+<div class="h-2 w-full bg-outline-variant/20 rounded-full mb-xs"></div>
+<div class="h-2 w-3/4 bg-outline-variant/20 rounded-full"></div>
+</div>
+</div>
+<div class="mt-auto">
+<div class="relative w-full aspect-video rounded-xl overflow-hidden mb-md shadow-sm">
+<img class="w-full h-full object-cover" data-alt="A clean, minimalist workspace with a sleek laptop and a small succulent on a white desk. The lighting is soft and bright, creating a serene and focused environment consistent with a high-end light-mode UI design system. The background is a soft gray wall, accentuating the intentional use of whitespace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVMHjHz_Tx0-Om25fIz8l4NbEllSFvm-K4Gxpk3n-vb2V5jcdjbY8efl8taCq-nTkLDsp-l8w65zoRdEezgzkfOkj302Zyz8cbXK8lvrUP39LurIfvhPWqKWsYoCYh6m0Ed3sVqMyGcVd5M6RlFsF2XpV7VIxGVevidThyhqapIL3X5JNl77OGmqQ-0pWpOPsIJv_kmttdpozAxdtORGejFRAYlyJZnzGFPU8BvyCbT1zjPYaV6BTtnzD8TllrGy7un1ihGJTfPSq7">
+</div>
+<p class="font-title-sm text-on-surface">Community Guidelines</p>
+<p class="font-body-sm text-on-surface-variant mt-xs leading-relaxed">Ensure your group fosters a respectful and productive environment for all connected peers.</p>
+</div>
+</aside>
+</div>
+<!-- Micro-interaction JS -->
+<script>
+        const nameInput = document.getElementById('group-name');
+        const previewName = document.getElementById('preview-name');
+
+        nameInput.addEventListener('input', (e) => {
+            previewName.textContent = e.target.value || 'Untitled Group';
+        });
+
+        // Simple visibility selection logic for visual feedback
+        const radios = document.querySelectorAll('input[name="visibility"]');
+        radios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                // Potential for adding more complex UI logic here
+            });
+        });
+    </script>
+
+
+</body></html>

@@ -1,0 +1,213 @@
+@page
+@model ChatRoomModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Lumina Chat | Local Network";
+}
+
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="chat-stitch-body">
+    <header class="chat-top-nav">
+        <div class="chat-nav-left">
+            <a class="chat-brand" asp-page="/Index">Lumina Chat</a>
+            <nav class="chat-tabs" aria-label="Main chat navigation">
+                <a class="active" asp-page="/ChatRoom">Active Chats</a>
+                <a asp-page="/DiscoverGroups">Discover Groups</a>
+            </nav>
+        </div>
+
+            <div class="chat-nav-actions">
+            <span class="chat-current-user">@Model.DisplayName</span>
+            <button type="button" class="chat-icon-button" aria-label="Help">
+                <span class="material-symbols-outlined">help</span>
+            </button>
+            <button type="button" class="chat-icon-button" aria-label="Settings">
+                <span class="material-symbols-outlined">settings</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="chat-stitch-shell">
+        <aside class="chat-stitch-sidebar">
+            <nav class="chat-sidebar-nav" aria-label="Active chats">
+                <a class="active-chat-row" asp-page="/ChatRoom">
+                    <span class="material-symbols-outlined">chat_bubble</span>
+                    <span>Active Chats</span>
+                </a>
+
+                <section class="chat-participants" aria-label="Groups">
+                    <h2>Groups</h2>
+                    @if (Model.Groups.Count == 0)
+                    {
+                        <p class="chat-empty-copy">No groups have been created.</p>
+                    }
+                    else
+                    {
+                        @foreach (var group in Model.Groups)
+                        {
+                            <a class="participant-row" asp-page="/ChatRoom" asp-route-groupId="@group.Id">
+                                <div class="participant-avatar">@group.Initials</div>
+                                <div>
+                                    <strong>@group.Name</strong>
+                                    <span>@group.MemberCount members</span>
+                                </div>
+                            </a>
+                        }
+                    }
+                </section>
+            </nav>
+        </aside>
+
+        <section class="chat-stitch-main">
+            <header class="chat-room-header">
+                <div class="chat-room-title">
+                    <button type="button" class="mobile-menu-button" aria-label="Open sidebar">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <div>
+                        <h1>@(Model.SelectedGroup?.Name ?? "No group selected")</h1>
+                        <p>@(Model.SelectedGroup is null ? "Create or select a group to start chatting." : $"{Model.SelectedGroup.MemberCount} participants")</p>
+                    </div>
+                </div>
+                @if (Model.SelectedGroup is not null)
+                {
+                    <div class="chat-room-actions">
+                        <a class="chat-icon-button" asp-page="/GroupDetails" asp-route-groupId="@Model.SelectedGroup.Id" aria-label="Group details">
+                            <span class="material-symbols-outlined">more_vert</span>
+                        </a>
+                    </div>
+                }
+            </header>
+
+            <div class="chat-message-list custom-scrollbar" id="chat-messages" aria-label="Messages">
+                @if (Model.SelectedGroup is null)
+                {
+                    <section class="chat-empty-state">
+                        <span class="material-symbols-outlined">forum</span>
+                        <h2>No chat selected</h2>
+                        <p>Select an existing group from the sidebar.</p>
+                    </section>
+                }
+                else if (Model.Messages.Count == 0)
+                {
+                    <section class="chat-empty-state">
+                        <span class="material-symbols-outlined">chat_bubble</span>
+                        <h2>No messages yet</h2>
+                        <p>This group has no messages.</p>
+                    </section>
+                }
+                else
+                {
+                    @foreach (var message in Model.Messages)
+                    {
+                        <article class="stitch-message @(message.SenderId == Model.ParticipantId ? "outgoing" : "incoming")">
+                            <div class="message-avatar text-avatar">@message.SenderInitials</div>
+                            <div class="message-stack">
+                                <div class="message-line-meta @(message.SenderId == Model.ParticipantId ? "outgoing-meta" : string.Empty)">
+                                    <strong>@message.SenderName</strong>
+                                    <span>@message.SentAt.ToLocalTime().ToString("g")</span>
+                                </div>
+                                <div class="message-bubble-stitch">
+                                    @if (message.MessageType == "image" && message.Attachment is not null)
+                                    {
+                                        <p>@message.Text</p>
+                                        <a class="image-attachment" href="@message.Attachment.Url" target="_blank" rel="noopener">
+                                            <img src="@message.Attachment.Url" alt="@message.Attachment.FileName" />
+                                        </a>
+                                    }
+                                    else if (message.MessageType == "file" && message.Attachment is not null)
+                                    {
+                                        <a class="file-attachment" href="@message.Attachment.Url" download="@message.Attachment.FileName">
+                                            <span class="material-symbols-outlined">description</span>
+                                            <div>
+                                                <strong>@message.Attachment.FileName</strong>
+                                                <span>@FormatFileSize(message.Attachment.FileSize)</span>
+                                            </div>
+                                            <span class="material-symbols-outlined">download</span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <p>@message.Text</p>
+                                    }
+                                </div>
+                            </div>
+                        </article>
+                    }
+                }
+            </div>
+
+            <form class="chat-composer-stitch" id="chat-form">
+                @Html.AntiForgeryToken()
+                @if (Model.SelectedGroup is not null && Model.ParticipantId is not null)
+                {
+                    <input type="hidden" id="chat-group-id" value="@Model.SelectedGroup.Id" />
+                    <input type="hidden" id="chat-participant-id" value="@Model.ParticipantId" />
+                    <input type="hidden" id="chat-display-name" value="@Model.DisplayName" />
+                }
+                <div class="composer-inner">
+                    <button type="button" class="chat-icon-button attach-button" id="attach-image-button" aria-label="Attach image" @(Model.SelectedGroup is null ? "disabled" : string.Empty)>
+                        <span class="material-symbols-outlined">image</span>
+                    </button>
+                    <input id="chat-image-input" type="file" accept="image/*" hidden @(Model.SelectedGroup is null ? "disabled" : string.Empty) />
+                    <button type="button" class="chat-icon-button attach-button" id="attach-file-button" aria-label="Attach file" @(Model.SelectedGroup is null ? "disabled" : string.Empty)>
+                        <span class="material-symbols-outlined">attach_file</span>
+                    </button>
+                    <input id="chat-file-input" type="file" hidden @(Model.SelectedGroup is null ? "disabled" : string.Empty) />
+                    <textarea id="chat-input" placeholder="Type a message" rows="1" aria-label="Type a message" @(Model.SelectedGroup is null ? "disabled" : string.Empty)></textarea>
+                    <button type="submit" class="send-button" aria-label="Send" @(Model.SelectedGroup is null ? "disabled" : string.Empty)>
+                        <span class="material-symbols-outlined">send</span>
+                    </button>
+                </div>
+                <div class="image-preview-panel" id="image-preview-panel" hidden>
+                    <a id="image-preview-link" href="#" target="_blank" rel="noopener">
+                        <img id="image-preview" alt="Selected image preview" />
+                    </a>
+                    <div class="image-preview-details">
+                        <strong id="image-preview-name"></strong>
+                        <span id="image-preview-size"></span>
+                    </div>
+                    <button type="button" class="image-preview-remove" id="remove-image-button">Remove</button>
+                    <button type="button" class="image-preview-send" id="send-image-button">Send Image</button>
+                </div>
+                <div class="upload-progress" id="upload-progress" hidden>
+                    <div class="upload-progress-meta">
+                        <span id="upload-file-name"></span>
+                        <span id="upload-percent">0%</span>
+                    </div>
+                    <progress id="upload-progress-bar" value="0" max="100"></progress>
+                </div>
+                <p id="chat-status" role="status"></p>
+            </form>
+        </section>
+    </main>
+    <script src="~/lib/signalr/signalr.min.js" asp-append-version="true"></script>
+    <script src="~/js/chat-room.js" asp-append-version="true"></script>
+</body>
+</html>
+
+@functions {
+    private static string FormatFileSize(long bytes)
+    {
+        if (bytes >= 1024 * 1024)
+        {
+            return $"{bytes / 1024d / 1024d:0.0} MB";
+        }
+
+        if (bytes >= 1024)
+        {
+            return $"{bytes / 1024d:0.0} KB";
+        }
+
+        return $"{bytes} B";
+    }
+}

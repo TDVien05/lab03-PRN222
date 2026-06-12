@@ -1,0 +1,133 @@
+@page
+@model DiscoverGroupsModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Discover Groups (LAN)";
+}
+
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="discover-stitch-body">
+    <div class="discover-shell">
+        <aside class="discover-sidebar">
+            <div class="discover-brand-block">
+                <div class="discover-brand-row">
+                    <img alt="Lumina Logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF5-0GCU_IduWRjfd-0ZhWzaLKdIlkU5zLz3EIioP8YZwmA-DOob81GDpOXLDtiO5AWmM-MDZqvO0Ey4NHrdn0gOK0Gr_rLA8lPOIiWBD4d1fEHIu5MiuLq-jJ8PSZjQw0l97YTbihTErezd_45AO-nfhnSlapRZEm-6S-ak242eV6vwR1zGj8m-cLBHNCbxR-pyNuGuG3GVvJLpGfk1LJtgmUtqzacZzEDDaysVLRfHxFubsKwaXtZ56BCdO3B4CW_2Z2m7ucimVu" />
+                    <h1>Lumina Chat</h1>
+                </div>
+                <p>Local Network</p>
+            </div>
+
+            <nav class="discover-nav" aria-label="Discover navigation">
+                <a asp-page="/ChatRoom">
+                    <span class="material-symbols-outlined">chat_bubble</span>
+                    <span>Active Chats</span>
+                </a>
+                <a class="active" asp-page="/DiscoverGroups">
+                    <span class="active-pill"></span>
+                    <span class="material-symbols-outlined">explore</span>
+                    <span>Discover Groups</span>
+                </a>
+                <a>
+                    <span class="material-symbols-outlined">settings_applications</span>
+                    <span>Settings</span>
+                </a>
+            </nav>
+
+            <div class="discover-sidebar-footer">
+                <a>
+                    <span class="material-symbols-outlined">support_agent</span>
+                    <span>Support</span>
+                </a>
+                <a>
+                    <span class="material-symbols-outlined">archive</span>
+                    <span>Archive</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="discover-main">
+            <header class="discover-topbar">
+                <h2>Discover Groups</h2>
+                <div class="discover-actions">
+                    <button type="button" class="discover-icon-button" aria-label="Help">
+                        <span class="material-symbols-outlined">help</span>
+                    </button>
+                    <button type="button" class="discover-icon-button" aria-label="Settings">
+                        <span class="material-symbols-outlined">settings</span>
+                    </button>
+                    <img alt="User profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMp5gHEmlnvkwguTvRUceuIzcDquosssbVqCXW3d4Qge_7OknopPVdpY-oKQWlPsBIfMJCNI9X1ZaorzEUd_W_vuSb0e5XmqbQaGYBAC-wYvx6S8qfSOIAFJJPmnCgVfm4tkdNR2MHdI5Dh9ppG3rNphim66WvVgeZXaZ83MTJSI07H37GUjoIlfHfCrymaSNc0Jutnou_FnNSEqhE-O7pZdmw1R3JBc-Zi3lU4AuT-xSplyO_2sjAQwyKvdxqFWMJ_KiwSXqqwaZ-" />
+                </div>
+            </header>
+
+            <div class="discover-scroll">
+                <div class="discover-content">
+                    <section class="discover-intro">
+                        <div>
+                            <p>LOCAL NETWORK EXPLORER</p>
+                            <h3>Find your community</h3>
+                        </div>
+                    </section>
+
+                    <section class="discover-section">
+                        <div class="discover-section-title">
+                            <span class="material-symbols-outlined">public</span>
+                            <h4>Available Local Rooms</h4>
+                        </div>
+
+                        <div class="discover-card-grid available-rooms">
+                            @if (Model.Groups.Count == 0)
+                            {
+                                <article class="proposal-card">
+                                    <span class="material-symbols-outlined">forum</span>
+                                    <h5>No groups yet</h5>
+                                    <p>No local chat groups are available yet.</p>
+                                </article>
+                            }
+                            else
+                            {
+                                @foreach (var group in Model.Groups)
+                                {
+                                    <article class="available-card">
+                                        <div class="room-card-head">
+                                            <div class="room-icon muted"><span class="material-symbols-outlined">groups</span></div>
+                                            <span class="member-badge">@group.MemberCount MEMBERS</span>
+                                        </div>
+                                        <h5>@group.Name</h5>
+                                        <p>@group.Description</p>
+                                        <form class="join-room-form" method="post" asp-page-handler="Join">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="GroupId" value="@group.Id" />
+                                            <label for="display-name-@group.Id">Your name</label>
+                                            <input
+                                                id="display-name-@group.Id"
+                                                name="DisplayName"
+                                                type="text"
+                                                maxlength="50"
+                                                value="@Model.DisplayName"
+                                                placeholder="Enter your name" />
+                                            @if (Model.ErrorGroupId == group.Id && !string.IsNullOrWhiteSpace(Model.ErrorMessage))
+                                            {
+                                                <span class="join-room-error" role="alert">@Model.ErrorMessage</span>
+                                            }
+                                            <button class="join-room-button" type="submit">JOIN ROOM</button>
+                                        </form>
+                                    </article>
+                                }
+                            }
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

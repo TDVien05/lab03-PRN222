@@ -1,0 +1,108 @@
+@page
+@model AdminLoginModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Admin Login | Lumina Chat";
+}
+
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="admin-login-body">
+    <main class="admin-login-main">
+        <section class="admin-login-brand">
+            <div class="admin-login-logo" aria-hidden="true">
+                <span class="material-symbols-outlined filled">cloud_done</span>
+            </div>
+            <h1>Lumina Chat</h1>
+            <p>Administrator Portal</p>
+        </section>
+
+        <section class="admin-login-card">
+            <header>
+                <h2>Admin Login</h2>
+                <p>Secure access for local network management.</p>
+            </header>
+
+            @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+            {
+                <div class="admin-login-error" role="alert">
+                    <span class="material-symbols-outlined" aria-hidden="true">error</span>
+                    <span>@Model.ErrorMessage</span>
+                </div>
+            }
+
+            <form class="admin-login-form" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="ReturnUrl" />
+
+                <div class="admin-field">
+                    <label for="admin-identifier">Username or Email</label>
+                    <div class="admin-input-wrap">
+                        <span class="material-symbols-outlined" aria-hidden="true">person</span>
+                        <input id="admin-identifier" asp-for="Identifier" type="text" placeholder="admin_id" autocomplete="username" />
+                    </div>
+                </div>
+
+                <div class="admin-field">
+                    <div class="admin-label-row">
+                        <label for="admin-password">Password</label>
+                        <a href="#">Forgot Password?</a>
+                    </div>
+                    <div class="admin-input-wrap">
+                        <span class="material-symbols-outlined" aria-hidden="true">lock</span>
+                        <input id="admin-password" asp-for="Password" type="password" placeholder="********" autocomplete="current-password" />
+                    </div>
+                </div>
+
+                <button class="admin-signin-button" type="submit">
+                    <span>Sign In</span>
+                    <span class="material-symbols-outlined" aria-hidden="true">login</span>
+                </button>
+            </form>
+
+            <div class="admin-divider">
+                <span></span>
+                <em>or</em>
+            </div>
+
+            <a class="admin-return-link" asp-page="/Index">
+                <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+                <span>Return to LAN Chat</span>
+            </a>
+        </section>
+
+        <footer class="admin-login-footer">
+            <p>Node status: <strong>Secure Online</strong></p>
+            <div>
+                <span class="material-symbols-outlined">shield</span>
+                <span class="material-symbols-outlined">key</span>
+                <span class="material-symbols-outlined">lan</span>
+            </div>
+        </footer>
+    </main>
+
+    <div class="admin-bg-layer" aria-hidden="true">
+        <span class="admin-bg-orb top"></span>
+        <span class="admin-bg-orb bottom"></span>
+    </div>
+
+    <script>
+        document.querySelectorAll('.admin-input-wrap input').forEach((input) => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('is-focused');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('is-focused');
+            });
+        });
+    </script>
+</body>
+</html>
