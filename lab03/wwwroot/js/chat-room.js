@@ -5,6 +5,8 @@
   const form = document.getElementById("chat-form");
   const textArea = document.getElementById("chat-input");
   const sendButton = document.querySelector(".send-button");
+  const emojiButton = document.getElementById("emoji-button");
+  const emojiPicker = document.getElementById("emoji-picker");
   const attachImageButton = document.getElementById("attach-image-button");
   const imageInput = document.getElementById("chat-image-input");
   const attachFileButton = document.getElementById("attach-file-button");
@@ -37,6 +39,37 @@
     if (status) {
       status.textContent = message;
     }
+  }
+
+  function closeEmojiPicker() {
+    if (!emojiPicker || !emojiButton) {
+      return;
+    }
+
+    emojiPicker.hidden = true;
+    emojiButton.setAttribute("aria-expanded", "false");
+  }
+
+  function toggleEmojiPicker() {
+    if (!emojiPicker || !emojiButton || emojiButton.disabled) {
+      return;
+    }
+
+    const willOpen = emojiPicker.hidden;
+    emojiPicker.hidden = !willOpen;
+    emojiButton.setAttribute("aria-expanded", String(willOpen));
+  }
+
+  function insertEmoji(emoji) {
+    const start = textArea.selectionStart ?? textArea.value.length;
+    const end = textArea.selectionEnd ?? textArea.value.length;
+    const before = textArea.value.slice(0, start);
+    const after = textArea.value.slice(end);
+
+    textArea.value = `${before}${emoji}${after}`;
+    const nextCursorPosition = start + emoji.length;
+    textArea.setSelectionRange(nextCursorPosition, nextCursorPosition);
+    textArea.focus();
   }
 
   function getInitials(name) {
@@ -164,6 +197,7 @@
   });
 
   connection.onreconnecting(() => {
+    closeEmojiPicker();
     sendButton.disabled = true;
     setStatus("Reconnecting...");
   });
@@ -175,6 +209,7 @@
   });
 
   connection.onclose(() => {
+    closeEmojiPicker();
     sendButton.disabled = true;
     setStatus("Disconnected. Refresh the page to reconnect.");
   });
@@ -193,6 +228,7 @@
     try {
       await connection.invoke("SendMessage", groupId, participantId, messageText);
       textArea.value = "";
+      closeEmojiPicker();
     } catch {
       setStatus("Message could not be sent.");
     } finally {
@@ -209,6 +245,36 @@
       form.requestSubmit();
     }
   });
+
+  if (emojiButton && emojiPicker) {
+    emojiButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      toggleEmojiPicker();
+    });
+
+    emojiPicker.addEventListener("click", (event) => {
+      event.stopPropagation();
+
+      const emojiOption = event.target.closest(".emoji-option");
+      if (!emojiOption) {
+        return;
+      }
+
+      insertEmoji(emojiOption.dataset.emoji || emojiOption.textContent || "");
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!emojiPicker.hidden && !emojiPicker.contains(event.target) && event.target !== emojiButton) {
+        closeEmojiPicker();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeEmojiPicker();
+      }
+    });
+  }
 
   if (attachImageButton && imageInput) {
     attachImageButton.addEventListener("click", () => {
