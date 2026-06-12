@@ -10,7 +10,7 @@ namespace lab03.Pages;
 
 public class ChatRoomModel : PageModel
 {
-    private const long MaxUploadSize = 25 * 1024 * 1024;
+    private const long MaxUploadSize = 1536L * 1024 * 1024;
 
     private readonly ChatDbContext _dbContext;
     private readonly IWebHostEnvironment _environment;
@@ -125,7 +125,7 @@ public class ChatRoomModel : PageModel
 
         if (file.Length > MaxUploadSize)
         {
-            return BadRequest(new { error = "File must be 25 MB or smaller." });
+            return BadRequest(new { error = "File must be 1.5 GB or smaller." });
         }
 
         var participant = await _dbContext.Participants

@@ -1,9 +1,11 @@
 using DataAccessLayer;
 using lab03.Hubs;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+const long maxUploadSize = 1536L * 1024 * 1024;
 var adminAuthScheme = builder.Configuration["AdminAuthentication:Scheme"]
     ?? throw new InvalidOperationException("Missing configuration: AdminAuthentication:Scheme");
 var adminLoginPath = builder.Configuration["AdminAuthentication:LoginPath"]
@@ -16,6 +18,11 @@ var defaultConnection = builder.Configuration.GetConnectionString("DefaultConnec
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Limits.MaxRequestBodySize = maxUploadSize;
+});
 
 // Add services to the container.
 builder.Services
@@ -38,6 +45,10 @@ builder.Services.AddSession(options =>
 });
 builder.Services.AddDbContext<ChatDbContext>(options =>
     options.UseNpgsql(defaultConnection));
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = maxUploadSize;
+});
 builder.Services.AddRazorPages();
 builder.Services.AddSignalR();
 
